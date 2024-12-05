@@ -4,10 +4,9 @@ services:
     build: ./api-gateway
     ports:
       - "8000:8000"
-    network_mode: host
 
   userservice:
     build: ./user-service
-    ports:
-      - "8001:8001"
     network_mode: host
+    depends_on:
+      - gateway
