@@ -1,6 +1,11 @@
 version: "3.3"
 services:
-  application:
+  gateway:
     build: ./api-gateway
     ports:
       - "8000:8000"
+
+  userService:
+    build: ./user-service
+    ports:
+      - "8001:8001"
