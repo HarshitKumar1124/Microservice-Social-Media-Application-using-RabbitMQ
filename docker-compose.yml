@@ -5,7 +5,7 @@ services:
     ports:
       - "8000:8000"
 
-  userService:
+  userservice:
     build: ./user-service
     ports:
       - "8001:8001"
