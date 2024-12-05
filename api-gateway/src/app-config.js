@@ -14,7 +14,8 @@ module.exports = async(app) =>{
         app.get('/',async(req,res)=>{
             res.status(200).send({
                 status:true,
-                message:`API Gateway is live at port :: ${process.env.PORT}`
+                message:`API Gateway is live at port :: ${process.env.PORT}`,
+                AWS_Status:`CI-CD Pipeline implemented successfully.`
             });
         })
         
