@@ -2,8 +2,7 @@ version: "3.3"
 services:
   gateway:
     build: ./api-gateway
-    ports:
-      - "8000:8000"
+    network_mode: host
 
   userservice:
     build: ./user-service
