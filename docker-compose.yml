@@ -1,0 +1,6 @@
+version: "1.0"
+services:
+  application:
+    build: ./api-gateway
+    ports:
+      - "8000:8000"
