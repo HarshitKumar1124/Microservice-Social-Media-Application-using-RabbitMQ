@@ -24,4 +24,4 @@ services:
       options:
         awslogs-region: us-east-1
         awslogs-group: social-media-ec2-dokcerlogs
-        awslogs-stream: gateway-service-logs
+        awslogs-stream: user-service-logs
