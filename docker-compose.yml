@@ -3,9 +3,25 @@ services:
   gateway:
     build: ./api-gateway
     network_mode: host
+    image: gateway-image
+    container_name: gateway-container
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: us-east-1
+        awslogs-group: social-media-ec2-dokcerlogs
+        awslogs-stream: gateway-service-logs
 
   userservice:
     build: ./user-service
     network_mode: host
     depends_on:
       - gateway
+    image: user-service-image
+    container_name: user-service-container
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: us-east-1
+        awslogs-group: social-media-ec2-dokcerlogs
+        awslogs-stream: gateway-service-logs
