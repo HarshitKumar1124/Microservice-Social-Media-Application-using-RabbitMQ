@@ -41,7 +41,7 @@ module.exports = async(app) =>{
         app.use('*',(req,res,next)=>{
             res.status(404).send({
                 status:'Failure',
-                message:'Error 404 Route not found.'
+                message:'Error 404 Route not found here.'
             })
         })
 
