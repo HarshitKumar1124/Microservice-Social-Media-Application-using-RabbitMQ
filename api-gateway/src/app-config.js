@@ -4,8 +4,17 @@ const proxy = require('express-http-proxy');
 
 Dotenv.config({path:"./config.env"});
 
+const Gateway = require('./service/api-gateway-service');
+const { MQPublisher } = require('./utils/messageBroker');
+const messageBroker = new MQPublisher();
+
 module.exports = async(app) =>{
     try{
+
+        const gatewayService = new Gateway();
+
+        /* Here we are subscribing the "user_service_exchange" and "USER_SERVICE_QUEUE" */
+        messageBroker.subscribeMessage('USER_SERVICE_EXCHANGE','api-gateway-service-binding-key',gatewayService); 
 
         /* It is used for json body-parser */
         app.use(express.json());

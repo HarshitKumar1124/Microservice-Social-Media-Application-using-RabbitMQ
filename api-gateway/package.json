@@ -11,6 +11,7 @@
   "author": "Harshit Kumar",
   "license": "ISC",
   "dependencies": {
+    "amqplib": "^0.10.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "express-http-proxy": "^2.1.1",

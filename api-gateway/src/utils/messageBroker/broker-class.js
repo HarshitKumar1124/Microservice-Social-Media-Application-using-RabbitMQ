@@ -28,6 +28,9 @@ class MQPublisher{
     }
 
 
+    /* No need of Publishing Message Functionality for API Gateway */
+
+    /*
     async publishMessage(bindingKey,payload){
        
         if(!this.channel){
@@ -36,7 +39,7 @@ class MQPublisher{
         
        try{
             console.log(`user-service Published ${payload.event} event to ${bindingKey}`);
-            return await this.channel.publish(config.rabbitMQ.exchangeName,bindingKey,Buffer.from(
+            await this.channel.publish(config.rabbitMQ.exchangeName,bindingKey,Buffer.from(
                 JSON.stringify(payload)
             ))
 
@@ -45,8 +48,9 @@ class MQPublisher{
        }
 
     }
+    */
 
-    async subscribeMessage(ExchangeName,bindingKey,userService){
+    async subscribeMessage(ExchangeName,bindingKey,gatewayService){
 
         if(!this.channel){
             await this.establishChannel();
@@ -54,14 +58,14 @@ class MQPublisher{
 
         try{
 
-        const subscriber_queue = await this.channel.assertQueue('USER_SERVICE_QUEUE');
+        const subscriber_queue = await this.channel.assertQueue('API_GATEWAY_SERVICE_QUEUE');
 
         await this.channel.bindQueue(subscriber_queue.queue,ExchangeName,bindingKey)
 
         await this.channel.consume(subscriber_queue.queue,async(bufferPayload)=>{
             let payload = JSON.parse(bufferPayload.content)
-            console.log(`user-service Recieved event ${payload.event} from ${ExchangeName}`,payload.event);
-            await userService.subscribeEvents(payload)
+            console.log(`api-gateway-service Received event ${payload.event} from ${ExchangeName}`,payload.event);
+            await gatewayService.subscribeEvents(payload);
             this.channel.ack(bufferPayload)
         })
 

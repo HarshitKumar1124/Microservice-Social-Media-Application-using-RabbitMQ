@@ -9,9 +9,15 @@ const Path = require('path')
 const envPath = Path.resolve(__dirname,"../config.env");
 Dotenv.config({path:envPath});
 
+const {MQPublisher} = require('./utils/messageBroker');
+const { setTimeout } = require('timers');
+
+
 module.exports = async(app) =>{
     try{
 
+        const messageBroker = new MQPublisher();
+        
         /* It is used for json body-parser */
         app.use(express.json());
 
@@ -39,11 +45,34 @@ module.exports = async(app) =>{
             })
         })
 
-
-
+         /* publishing Event to rabbitMQ on activation of server */
         app.listen(process.env.PORT,()=>{
-            console.log('User Microservice is listening to the port ::',process.env.PORT);
+            console.log('User service is listening ar PORT :: ',process.env.PORT);
+            messageBroker.publishMessage('api-gateway-service-binding-key',{
+                event:'SERVICE_ACTIVATION',
+                data:{
+                    message:"User-service is live now."
+                }
+            })
         });
+
+        /* publishing Event to rabbitMQ on termination of server */
+        process.on('SIGINT',async()=>{
+            console.log('Shutting down User-service');
+            await messageBroker.publishMessage('api-gateway-service-binding-key',{
+                event:'SERVICE_DEACTIVATION',
+                data:{
+                    message:"User-service is shutting down now."
+                }
+            });
+
+            /* responsible to release the previous PORT that was being used. */
+            setTimeout(()=>{
+                process.exit(0)
+            },3000);
+            
+        })
+
 
     } catch (ex) {
         console.log('Application execution failed due to :: ',ex);
