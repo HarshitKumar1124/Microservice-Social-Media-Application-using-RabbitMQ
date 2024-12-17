@@ -25,3 +25,16 @@ services:
         awslogs-region: us-east-1
         awslogs-group: social-media-ec2-dockerlogs
         awslogs-stream: user-service-logs
+
+  connectservice:
+    build: ./connection-service
+    depends_on:
+      - gateway
+    image: connect-service-image
+    container_name: connect-service-container
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: us-east-1
+        awslogs-group: social-media-ec2-dockerlogs
+        awslogs-stream: connect-service-logs

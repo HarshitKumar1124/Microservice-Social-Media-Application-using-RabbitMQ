@@ -16,6 +16,9 @@ module.exports = async(app) =>{
         /* Here we are subscribing the "user_service_exchange" and "USER_SERVICE_QUEUE" */
         messageBroker.subscribeMessage('USER_SERVICE_EXCHANGE','api-gateway-service-binding-key',gatewayService); 
 
+        /* Here we are subscribing the "connection_service_exchange" and "USER_SERVICE_QUEUE" */
+        messageBroker.subscribeMessage('CONNECTION_SERVICE_EXCHANGE','api-gateway-service-binding-key',gatewayService); 
+
         /* It is used for json body-parser */
         app.use(express.json());
 
