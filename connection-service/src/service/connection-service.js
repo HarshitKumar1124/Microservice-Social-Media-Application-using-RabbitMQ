@@ -51,7 +51,7 @@ class ConnectionService {
                 userID:targetUser
             });
 
-            if(!targetUserConnection) {
+            if(!authUserConnection) {
                 throw(`Auth User with ID - ${authUser} is not available to connect.`);
             }
 
