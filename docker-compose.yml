@@ -28,6 +28,7 @@ services:
 
   connectservice:
     build: ./connection-service
+    network_mode: host
     depends_on:
       - gateway
     image: connect-service-image
