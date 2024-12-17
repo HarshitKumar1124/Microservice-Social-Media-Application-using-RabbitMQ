@@ -46,6 +46,18 @@ class ConnectionService {
             const authUserConnection = await this.repository.getConnection({
                 userID:authUser
             });
+
+            const targetUserConnection = await this.repository.getConnection({
+                userID:targetUser
+            });
+
+            if(!targetUserConnection) {
+                throw(`Auth User with ID - ${authUser} is not available to connect.`);
+            }
+
+            if(!targetUserConnection) {
+                throw(`Target User with ID - ${targetUser} is not available to connect.`);
+            }
             
             const {following} = authUserConnection;
             
