@@ -2,9 +2,12 @@ const UserRepository = require('../database/repository/user-repository.js');
 const {sendToken , sendResetToken} = require('../utils');
 const bcrypt = require('bcrypt');
 
+const {MQPublisher} = require('../utils/messageBroker');
+
 class UserService {
     constructor(){
         this.repository = new UserRepository();
+        this.messageBroker = new MQPublisher();
     }
 
     async createTable(userSchema){
@@ -219,6 +222,30 @@ class UserService {
     }
 
 
+
+    /* Validates if both users exists or not for conversation */
+    async conversationValidateUsers({participants,converseID}) {
+        try{
+            let user1 = await this.repository.getUser({field:'objectid',value:participants[0]});
+            let user2 = await this.repository.getUser({field:'objectid',value:participants[1]});
+
+            let val1 = (user1?.rows.length == 0);
+            let val2 = (user2?.rows.length==0);
+            if( val1 || val2 ){
+                this.messageBroker.publishMessage('chat-service-binding-key',{
+                    event:'UNDO_CREATE_CONVERSATION',
+                    data:{
+                        message:(`User with ID ${(val1?participants[0]:participants[1])} , does not exists.`),
+                        converseID
+                    }
+                });
+            }
+        } catch(ex) {
+            throw ex;
+        }
+    }
+
+
     /* Subscribe-Receiver's End for Webhooks */
     async subscribeEvents(payload) {
 
@@ -236,6 +263,9 @@ class UserService {
                 break;
             case 'POST_DELETED':
                 await this.incrementPostsCount(data.userID,false);
+                break;
+            case 'CREATE_CONVERSATION_VALIDATE_USERS':
+                await this.conversationValidateUsers(data);
                 break;
             default: 
                 break;

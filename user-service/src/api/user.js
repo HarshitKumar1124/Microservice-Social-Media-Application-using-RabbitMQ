@@ -35,14 +35,6 @@ module.exports = (app) => {
     const userService = new UserService();
     const messageBroker = new MQPublisher();
 
-    /* Here we are subscribing the "Connection_service_exchange" and "USER_SERVICE_QUEUE" */
-    messageBroker.subscribeMessage('CONNECTION_SERVICE_EXCHANGE','user-service-binding-key',userService);  
-
-
-    /* Here we are subscribing the "post_service_exchange" and "USER_SERVICE_QUEUE" */
-    messageBroker.subscribeMessage('POST_SERVICE_EXCHANGE','user-service-binding-key',userService);  
-   
-
     this.getError = async(res,error) =>{
     
         res.status(400).send({

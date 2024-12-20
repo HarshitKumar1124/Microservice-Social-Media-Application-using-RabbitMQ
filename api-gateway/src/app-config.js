@@ -13,11 +13,14 @@ module.exports = async(app) =>{
 
         const gatewayService = new Gateway();
 
-        /* Here we are subscribing the "user_service_exchange" and "USER_SERVICE_QUEUE" */
+        /* Here we are subscribing the "user_service_exchange" */
         messageBroker.subscribeMessage('USER_SERVICE_EXCHANGE','api-gateway-service-binding-key',gatewayService); 
 
-        /* Here we are subscribing the "connection_service_exchange" and "USER_SERVICE_QUEUE" */
+        /* Here we are subscribing the "connection_service_exchange" */
         messageBroker.subscribeMessage('CONNECTION_SERVICE_EXCHANGE','api-gateway-service-binding-key',gatewayService); 
+
+        /* Here we are subscribing the "chat_service_exchange" */
+        messageBroker.subscribeMessage('CHAT_SERVICE_EXCHANGE','api-gateway-service-binding-key',gatewayService); 
 
         /* It is used for json body-parser */
         app.use(express.json());

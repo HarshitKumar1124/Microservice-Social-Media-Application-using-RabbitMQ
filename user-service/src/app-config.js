@@ -12,11 +12,24 @@ Dotenv.config({path:envPath});
 const {MQPublisher} = require('./utils/messageBroker');
 const { setTimeout } = require('timers');
 
+const UserService = require('./service/user-service');
+
 
 module.exports = async(app) =>{
     try{
 
         const messageBroker = new MQPublisher();
+        const userService = new UserService();
+
+        /* Here we are subscribing the "Chat_service_exchange" */
+        messageBroker.subscribeMessage('CHAT_SERVICE_EXCHANGE','user-service-binding-key',userService);  
+
+        /* Here we are subscribing the "Connection_service_exchange" */
+        messageBroker.subscribeMessage('CONNECTION_SERVICE_EXCHANGE','user-service-binding-key',userService);  
+
+        /* Here we are subscribing the "post_service_exchange" */
+        messageBroker.subscribeMessage('POST_SERVICE_EXCHANGE','user-service-binding-key',userService);  
+        
         
         /* It is used for json body-parser */
         app.use(express.json());
@@ -43,9 +56,11 @@ module.exports = async(app) =>{
                 status:'Failure',
                 message:'Error 404 Route not found here.'
             })
-        })
+        });
 
-         /* publishing Event to rabbitMQ on activation of server */
+      
+
+        /* publishing Event to rabbitMQ on activation of server */
         app.listen(process.env.PORT,()=>{
             console.log('User service is listening ar PORT :: ',process.env.PORT);
             messageBroker.publishMessage('api-gateway-service-binding-key',{
