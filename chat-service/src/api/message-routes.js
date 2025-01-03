@@ -2,6 +2,7 @@ const {ConversationService,MessageService} = require('../service');
 const { isAuthenticate } = require('./middleware').isAuth;
 
 const {MQ} = require('../utils/messageBroker');
+const {getIO,GetSocketID} = require('../utils/webSocket/socket');
 
 module.exports = (app) => {
 
@@ -21,7 +22,7 @@ module.exports = (app) => {
     /* chat-service Check test */
     app.get('/message',async(req,res)=>{
         res.status(200).send({
-            message:'chat-service is working fine in message-routes.'
+            message:'chat-service is working fine.'
         })
     })
 
@@ -101,6 +102,19 @@ module.exports = (app) => {
                 sender,
                 receiver
             });
+
+
+            // emitting socket .io send message event.
+
+            const receiverSocketId = await GetSocketID(receiver);
+
+            if(receiverSocketId)    // if receiver is online
+            {
+                const io = getIO();
+                console.log('real time bhejo',receiverSocketId);
+                await io.to(receiverSocketId).emit('newMessage',messageInstance);
+
+            }
            
             res.status(200).send({
                 status:true,

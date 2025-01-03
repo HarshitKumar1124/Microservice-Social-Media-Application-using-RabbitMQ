@@ -4,7 +4,7 @@ const { user } = require('./api');
 const cookieParser = require('cookie-parser');
 // const { appEvents } = require('./api/middleware');
 const { connectDatabase , Pool } = require('./database').db;
-const Path = require('path')
+const Path = require('path');
 
 const envPath = Path.resolve(__dirname,"../config.env");
 Dotenv.config({path:envPath});
@@ -13,6 +13,8 @@ const {MQPublisher} = require('./utils/messageBroker');
 const { setTimeout } = require('timers');
 
 const UserService = require('./service/user-service');
+
+const cors = require('cors');
 
 
 module.exports = async(app) =>{
@@ -39,6 +41,17 @@ module.exports = async(app) =>{
 
         /* For parsing application/x-www-form-urlencoded */
         app.use(express.urlencoded({ extended: true })); 
+
+        /* CORS Permission */
+        //. Order of Middleware:
+        // The order in which you use middleware in Express is crucial. The cors middleware must be used before any routes or other middleware that handle the requests you want to protect with CORS
+        app.use(cors({
+            origin: ["http://localhost:5173","http://localhost:3000"], // Allow only requests from this domain
+            credentials: true, // Allow credentials (cookies) to be included in cross-origin requests       
+            SameSite:'None',
+            secure:false
+        }));
+        
 
         /* Connect PostgreSQL Database */
         await connectDatabase();
