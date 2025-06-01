@@ -15,4 +15,4 @@ COPY . .
 EXPOSE 8000
 
 # Step 6: Set the command to run the app
-CMD ["npm", "run" , "start"];
+CMD ["npm", "run" , "start"]
