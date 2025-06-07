@@ -30,34 +30,34 @@ services:
     env_file:
       - /home/ubuntu/Environment/user-service.env
 
-  connectservice:
-    build: ./connection-service
-    network_mode: host
-    depends_on:
-      - gateway
-    image: connect-service-image
-    container_name: connect-service-container
-    logging:
-      driver: awslogs
-      options:
-        awslogs-region: us-east-1
-        awslogs-group: social-media-ec2-dockerlogs
-        awslogs-stream: connect-service-logs
-    env_file:
-      - /home/ubuntu/Environment/connection-service.env
+  # connectservice:
+  #   build: ./connection-service
+  #   network_mode: host
+  #   depends_on:
+  #     - gateway
+  #   image: connect-service-image
+  #   container_name: connect-service-container
+  #   logging:
+  #     driver: awslogs
+  #     options:
+  #       awslogs-region: us-east-1
+  #       awslogs-group: social-media-ec2-dockerlogs
+  #       awslogs-stream: connect-service-logs
+  #   env_file:
+  #     - /home/ubuntu/Environment/connection-service.env
 
-  chatservice:
-    build: ./chat-service
-    network_mode: host
-    depends_on:
-      - gateway
-    image: chat-service-image
-    container_name: chat-service-container
-    logging:
-      driver: awslogs
-      options:
-        awslogs-region: us-east-1
-        awslogs-group: social-media-ec2-dockerlogs
-        awslogs-stream: chat-service-logs
-    env_file:
-      - /home/ubuntu/Environment/chat-service.env
+  # chatservice:
+  #   build: ./chat-service
+  #   network_mode: host
+  #   depends_on:
+  #     - gateway
+  #   image: chat-service-image
+  #   container_name: chat-service-container
+  #   logging:
+  #     driver: awslogs
+  #     options:
+  #       awslogs-region: us-east-1
+  #       awslogs-group: social-media-ec2-dockerlogs
+  #       awslogs-stream: chat-service-logs
+  #   env_file:
+  #     - /home/ubuntu/Environment/chat-service.env
