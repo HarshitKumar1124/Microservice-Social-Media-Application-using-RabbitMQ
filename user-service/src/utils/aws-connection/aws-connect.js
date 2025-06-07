@@ -17,7 +17,19 @@ const awsConnect = async () => {
       secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, // Replace with your AWS Secret Access Key
       region: process.env.AWS_REGION, // Specify your Lambda region
     });
-    console.log("AWS Account connected successfully");
+
+    const sts = new AWS.STS();
+
+    sts.getCallerIdentity({}, (err, data) => {
+      if (err) {
+        console.error(
+          "❌ AWS credentials are invalid or misconfigured:",
+          err.message
+        );
+      } else {
+        console.log("✅ AWS Account connected successfully");
+      }
+    });
   } catch (ex) {
     console.log(`Unable to connect to AWS Account due to :: ${ex}`);
   }
