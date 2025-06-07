@@ -1,0 +1,30 @@
+{
+  "name": "user-service",
+  "version": "1.0.0",
+  "description": "User Microservice constitutes of all CRUD operations and tasks related to user data.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --exec \" cls && node\" ./src/index.js",
+    "start": "node ./src/index.js"
+  },
+  "author": "Harshit Kumar",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.10.5",
+    "aws-sdk": "^2.1692.0",
+    "axios": "^1.7.7",
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "express-rate-limit": "^7.5.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.10.0",
+    "nodemailer": "^6.9.15",
+    "nodemon": "^3.1.7",
+    "pg": "^8.13.0"
+  }
+}

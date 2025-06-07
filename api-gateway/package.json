@@ -1,0 +1,20 @@
+{
+  "name": "api-gateway",
+  "version": "1.0.0",
+  "description": "Route the requests to their respective microservice",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --exec \" cls && node\" ./src/index.js",
+    "start": "node ./src/index.js"
+  },
+  "author": "Harshit Kumar",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.10.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "express-http-proxy": "^2.1.1",
+    "nodemon": "^3.1.7"
+  }
+}
